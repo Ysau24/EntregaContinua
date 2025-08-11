@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build, Push and Deploy
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-push:
+  build-and-push-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,3 +24,8 @@ jobs:
         with:
           push: true
           tags: ysau24/holamundo-csharp:latest
+
+      - name: Deploy to Render
+        run: |
+          curl -X POST "https://api.render.com/deploy/srv-d2cjqih5pdvs73do3ml0" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}"
